@@ -1,0 +1,19 @@
+name: Upload zone files
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Upload files
+        uses: earendildev/backblaze-b2-action@master
+        env:
+          SOURCE_DIR: './files'
+          B2_BUCKET_PATH: ${{ secrets.B2_BUCKET }}
+          B2_APPKEY_ID: ${{ secrets.B2_APPKEY_ID }}
+          B2_APPKEY: ${{ secrets.B2_APPKEY }}
