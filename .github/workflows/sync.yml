@@ -1,4 +1,4 @@
-name: Upload zone files
+name: Upload stripper files
 on:
   push:
     branches:
@@ -9,6 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
+      - name: Generate hash files
+        run: |
+          for file in *.cfg
+          do
+            echo -e "Generate hash for $file..."
+            sha1sum $file | cut -d " " -f 1 > $file.hash
+          done
+        working-directory: ./files
 
       - name: Upload files
         uses: earendildev/backblaze-b2-action@master
